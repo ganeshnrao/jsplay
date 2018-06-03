@@ -3,9 +3,16 @@ body {
     font-size: 14px;
 }
 
+.code {
+    width: 100%;
+    height: 50%;
+    display: block;
+    position: relative;
+}
+
 .maze {
-    width: 500px;
-    height: 400px;
+    width: 100%;
+    height: 50%;
     display: block;
     position: relative;
 }
@@ -17,12 +24,20 @@ body {
     box-shadow: 0 0 0 0.5px #000 inset;
 }
 
+.none {
+    box-shadow: none;
+}
+
 .open {
     background: sandybrown;
 }
 
 .brick {
     background: brown;
+}
+
+.portal {
+    background: dodgerblue;
 }
 
 .gem:after {

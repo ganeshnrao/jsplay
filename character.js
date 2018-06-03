@@ -13,11 +13,15 @@ define(require => {
       this.index = position.index || 0
       this.direction = position.direction || 0
       this.gems = 0
-      this.history = []
       this.$el = $('<div style="width:' + board.cellWidth + ';height:' + board.cellHeight + ';"/>')
       $container.append(this.$el)
       this.dirty = true
       this.render()
+    }
+
+    clearDirty () {
+      delete this.dirty
+      return this
     }
 
     collectGem () {
@@ -25,9 +29,34 @@ define(require => {
       return this
     }
 
-    moveForward () {
+    getNextCell () {
       const direction = directions[this.direction]
-      const nextCell = this.board.getCell(this.index)[direction]()
+      return this.board.getCell(this.index)[direction]()
+    }
+
+    getState () {
+      return {
+        index: this.index,
+        direction: this.direction,
+        gems: this.gems
+      }
+    }
+
+    isBlocked () {
+      const nextCell = this.getNextCell()
+      return !nextCell || this.board.isBlocked(nextCell.index)
+    }
+
+    isGem () {
+      return !!this.board.isGem(this.index)
+    }
+
+    isDirty () {
+      return !!this.dirty
+    }
+
+    moveForward () {
+      const nextCell = this.getNextCell()
       if (nextCell) {
         this.index = nextCell.index
         this.setDirty()
@@ -43,12 +72,11 @@ define(require => {
         left: position.left
       })
       this.$el[0].className = directionClass[this.direction]
-      delete this.dirty
+      this.clearDirty()
       return this
     }
 
     setDirty () {
-      this.history.push(this.index)
       this.dirty = true
       return this
     }
@@ -57,6 +85,12 @@ define(require => {
       this.index = index
       this.setDirty()
       return this
+    }
+
+    setState (state) {
+      this.index = state.index
+      this.direction = state.direction
+      this.setDirty()
     }
 
     turnRight () {
