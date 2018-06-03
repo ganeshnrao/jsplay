@@ -37,16 +37,12 @@ body {
     left: 25%;
 }
 
-.caret {
+.character {
     position: absolute;
-    top: 0;
-    left: 20%;
     display: block;
-    width: 0;
-    height: 0;
 }
 
-.caret:after {
+.character:after {
     content: ' ';
     display: block;
     position: absolute;
@@ -58,25 +54,25 @@ body {
     border-width: 2em;
 }
 
-.caret.right:after {
+.character.right:after {
     margin-left: -1em;
     margin-top: -2em;
     border-left-color: black;
 }
 
-.caret.left:after {
+.character.left:after {
     margin-left: -3em;
     margin-top: -2em;
     border-right-color: black;
 }
 
-.caret.bottom:after {
+.character.bottom:after {
     margin-left: -2em;
     margin-top: -1em;
     border-top-color: black;
 }
 
-.caret.top:after {
+.character.top:after {
     margin-left: -2em;
     margin-top: -3em;
     border-bottom-color: black;

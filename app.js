@@ -4,6 +4,7 @@
 define(require => {
   const $ = require('jquery')
   const Board = require('./board')
+  const Character = require('./character')
   const boardString = require('text!./maze.txt')
 
   const boardFromString = boardString => boardString.split('\n').filter(s => s !== '')
@@ -18,13 +19,22 @@ define(require => {
     })
 
   class App {
-    constructor ($container, boardString) {
-      this.$container = $container
+    constructor ($container, boardString, character) {
+      const $maze = $container.find('.maze')
       const boardData = boardFromString(boardString)
-      this.board = new Board(boardData.board, boardData.width, this.$container.find('.maze'))
-      console.log(this.board)
+      this.board = new Board(boardData.board, boardData.width, $maze)
+      this.character = new Character(this.board, character, $maze)
+    }
+
+    render () {
+      this.board.render()
+      this.character.render()
     }
   }
 
-  return new App($('#app'), boardString)
+  const app = new App($('#app'), boardString, {index: 0, direction: 0})
+
+  window.moveForward = () => {
+    app.character.moveForward()
+  }
 })
