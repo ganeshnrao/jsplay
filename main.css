@@ -1,0 +1,83 @@
+body {
+    font-family: 'Input Mono', monospace;
+    font-size: 14px;
+}
+
+.maze {
+    width: 500px;
+    height: 400px;
+    display: block;
+    position: relative;
+}
+
+.cell {
+    float: left;
+    display: block;
+    position: relative;
+    box-shadow: 0 0 0 0.5px #000 inset;
+}
+
+.open {
+    background: sandybrown;
+}
+
+.brick {
+    background: brown;
+}
+
+.gem:after {
+    content: ' ';
+    display: block;
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background: red;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+}
+
+.caret {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.caret:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    border: solid transparent;
+    border-width: 2em;
+}
+
+.caret.right:after {
+    margin-left: -1em;
+    margin-top: -2em;
+    border-left-color: black;
+}
+
+.caret.left:after {
+    margin-left: -3em;
+    margin-top: -2em;
+    border-right-color: black;
+}
+
+.caret.bottom:after {
+    margin-left: -2em;
+    margin-top: -1em;
+    border-top-color: black;
+}
+
+.caret.top:after {
+    margin-left: -2em;
+    margin-top: -3em;
+    border-bottom-color: black;
+}
