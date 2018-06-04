@@ -7,24 +7,42 @@ define(require => {
     open: 0,
     brick: 1,
     gem: 2,
-    none: 3
+    none: 3,
+    portal: 4
   }
   const cellTypeClass = [
     'cell open',
     'cell brick',
     'cell open gem',
-    'cell none'
+    'cell none',
+    'cell portal'
   ]
 
+  const portalRegex = /^4([a-z])$/i
   const parseBoard = boardString => boardString.split('\n').filter(s => s !== '')
     .reduce((result, row) => {
-      const cells = row.split(/[\s]+/g)
+      const cells = row.split(/[\s]+/g).map((cell, index) => {
+        const matches = cell.match(portalRegex)
+        if (matches) {
+          const portalId = matches[1]
+          result.portals[portalId] = result.portals[portalId] || []
+          result.portals[portalId].push(result.board.length + index)
+          return {
+            type: cellTypes.portal,
+            portalId: portalId
+          }
+        }
+        return {
+          type: Number(cell)
+        }
+      })
       result.width = result.width || cells.length
       result.board = result.board.concat(cells)
       return result
     }, {
       width: 0,
-      board: []
+      board: [],
+      portals: {}
     })
 
   class Board {
@@ -32,24 +50,34 @@ define(require => {
       const data = parseBoard(boardString)
       const board = data.board
       const width = data.width
+      const portals = data.portals
+      const getPortalTo = (portalId, index) => {
+        if (portals[portalId]) {
+          const portalIndex = (portals[portalId].indexOf(index) + 1) % portals[portalId].length
+          return portals[portalId][portalIndex]
+        }
+      }
       this.cellWidth = (100 / width) + '%'
       this.cellHeight = (100 / (board.length / width)) + '%'
-      this.cells = board.map((cellType, index) => {
+      this.cells = board.map((cell, index) => {
         const $el = $('<div class="cell" style="width:' + this.cellWidth + ';height:' + this.cellHeight + ';"/>')
         $container.append($el)
+        const portalTo = getPortalTo(cell.portalId, index)
         return {
-          type: Number(cellType),
+          type: cell.type,
+          portalId: cell.portalId,
+          portalTo: portalTo,
           $el: $el,
           index: index,
           left: this.getCell.bind(this, index % width === 0 ? -1 : (index - 1)),
           right: this.getCell.bind(this, (index + 1) % width === 0 ? -1 : (index + 1)),
           top: this.getCell.bind(this, index - width),
           bottom: this.getCell.bind(this, index + width),
+          portal: portalTo ? this.getCell.bind(this, portalTo) : undefined,
           isBlocked: this.isBlocked.bind(this, index)
         }
       })
-      this.setDirty()
-      this.render()
+      this.render(true)
     }
 
     clearDirty () {
@@ -93,8 +121,12 @@ define(require => {
       return this.cells[index].type === cellTypes.gem
     }
 
-    render () {
-      if (!this.dirty) return
+    isPortal (index) {
+      return !!this.cells[index].portal
+    }
+
+    render (force) {
+      if (!force && !this.dirty) return
       this.cells.forEach(cell => {
         cell.$el[0].className = cellTypeClass[cell.type]
       })

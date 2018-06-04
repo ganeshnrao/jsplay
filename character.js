@@ -42,6 +42,16 @@ define(require => {
       }
     }
 
+    handlePortal () {
+      if (this.board.isPortal(this.index)) {
+        const portalDestination = this.board.getCell(this.index).portal()
+        this.index = portalDestination.index
+        this.setDirty()
+        return true
+      }
+      return false
+    }
+
     isBlocked () {
       const nextCell = this.getNextCell()
       return !nextCell || this.board.isBlocked(nextCell.index)

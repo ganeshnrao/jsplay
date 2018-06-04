@@ -31,7 +31,8 @@ define(require => {
       this.character.clearDirty()
     }
 
-    play () {
+    play (speed) {
+      this.playBackSpeed = speed || this.playBackSpeed
       this.playBackTimer = setTimeout(() => {
         if (!this.history.length) {
           return this.stop()
@@ -69,17 +70,26 @@ define(require => {
     window.isGem = app.character.isGem()
   }
 
-  window.moveForward = () => {
-    app.character.moveForward()
-    app.saveHistory()
-    updateFlags()
+  window.moveForward = count => {
+    const loopCount = count || 1
+    for (let i = 0; i < loopCount; i++) {
+      app.character.moveForward()
+      app.saveHistory()
+      if (app.character.handlePortal()) {
+        app.saveHistory()
+      }
+      updateFlags()
+    }
     return window
   }
 
-  window.turnRight = () => {
-    app.character.turnRight()
-    app.saveHistory()
-    updateFlags()
+  window.turnRight = count => {
+    const loopCount = count || 1
+    for (let i = 0; i < loopCount; i++) {
+      app.character.turnRight()
+      app.saveHistory()
+      updateFlags()
+    }
     return window
   }
 
@@ -92,7 +102,7 @@ define(require => {
 
   window.isBlocked = () => app.character.isBlocked()
 
-  window.play = () => app.play()
+  window.play = speed => app.play(speed)
 
   window.stop = () => app.stop()
 
