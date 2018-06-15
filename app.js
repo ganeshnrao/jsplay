@@ -52,9 +52,9 @@ define(require => {
         return acc
       }, [])
       if (fail.length) {
-        window.prompt('Try again.\n' + fail.join('\n'))
+        window.confirm('Try again.\n' + fail.join('\n'))
       } else {
-        window.prompt('You win!')
+        window.confirm('You win!')
       }
     }
 
