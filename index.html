@@ -1,10 +1,38 @@
 <html>
+
 <head>
     <link rel="stylesheet" href="main.css">
-    <title></title>
+    <title>Javascript Playground</title>
 </head>
+
 <body>
-<div id="app"></div>
-<script src="node_modules/requirejs/require.js" data-main="requireConfig.js"></script>
+    <div id="app">
+        <div class="code">
+            <div class="info">
+                <div class="description"></div>
+                <div class="actions">
+                    You have the following methods and booleans available.
+                </div>
+            </div>
+            <div class="editor-container">
+                <div id="editor"></div>
+            </div>
+        </div>
+        <div class="view">
+            <div class="board">
+                <div class="board-content"></div>
+            </div>
+            <div class="controls">
+                <button class="play-toggle">Play</button>
+                <label for="speed">
+                    Speed
+                    <input name="speed" class="play-speed" type="range" min="1" max="5" step="1" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <script src="node_modules/ace-builds/src-noconflict/ace.js"></script>
+    <script src="node_modules/requirejs/require.js" data-main="requireConfig.js"></script>
 </body>
+
 </html>

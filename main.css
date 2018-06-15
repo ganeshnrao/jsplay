@@ -1,20 +1,116 @@
 body {
     font-family: 'Input Mono', monospace;
-    font-size: 14px;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
 }
 
-.code {
+#app {
     width: 100%;
-    height: 50%;
+    height: 100%;
+    position: relative;
+}
+
+.code,
+.view {
+    top: 0;
+    left: 0;
+    right: 50%;
+    bottom: 0;
+    position: absolute;
+}
+
+.view {
+    background: #eee;
+    right: 0;
+    left: 50%;
+    padding: 2em;
+}
+
+.controls {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em;
+    position: absolute;
+}
+
+.controls button {
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+}
+
+.info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 50%;
+    bottom: 0;
+    padding: 1em;
+    overflow-y: scroll;
+}
+
+.actions {
+    margin-top: 1em;
+}
+
+.actions ul {
+    margin: 1em 0;
+    padding: 0;
+    list-style: none;
+}
+
+.actions li {
+    margin: 0;
+    padding: 1em 0;
+    border-top: 1px solid #eee;
+}
+
+.actions h3 {
+    font-size: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+.actions em {
+    color: dodgerblue;
+}
+
+.actions .boolean h3 {
+    color: darkcyan;
+}
+
+.editor-container {
+    background: #FDF6E3;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+}
+
+#editor {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    bottom: 1em;
+    left: 1em;
+}
+
+.board {
+    width: 100%;
+    padding-bottom: 100%;
     display: block;
     position: relative;
 }
 
-.maze {
-    width: 100%;
-    height: 50%;
-    display: block;
-    position: relative;
+.board-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .cell {
@@ -37,7 +133,7 @@ body {
 }
 
 .portal {
-    background: dodgerblue;
+    box-shadow: 0 0 0 0.5px #000 inset, 0 0 20px 20px sandybrown inset;
 }
 
 .gem:after {

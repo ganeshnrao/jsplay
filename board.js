@@ -17,37 +17,37 @@ define(require => {
     'cell none',
     'cell portal'
   ]
+  const colors = ['dodgerblue', 'green', 'cyan', 'lime']
 
-  const portalRegex = /^4([a-z])$/i
-  const parseBoard = boardString => boardString.split('\n').filter(s => s !== '')
-    .reduce((result, row) => {
-      const cells = row.split(/[\s]+/g).map((cell, index) => {
-        const matches = cell.match(portalRegex)
-        if (matches) {
-          const portalId = matches[1]
-          result.portals[portalId] = result.portals[portalId] || []
-          result.portals[portalId].push(result.board.length + index)
-          return {
-            type: cellTypes.portal,
-            portalId: portalId
-          }
-        }
+  const portalRegex = /^([a-z])$/i
+  const parseBoard = boardArray => boardArray.reduce((result, row) => {
+    const cells = row.split(/[\s]+/g).map((cell, index) => {
+      const matches = cell.match(portalRegex)
+      if (matches) {
+        const portalId = matches[1]
+        result.portals[portalId] = result.portals[portalId] || []
+        result.portals[portalId].push(result.board.length + index)
         return {
-          type: Number(cell)
+          type: cellTypes.portal,
+          portalId: portalId
         }
-      })
-      result.width = result.width || cells.length
-      result.board = result.board.concat(cells)
-      return result
-    }, {
-      width: 0,
-      board: [],
-      portals: {}
+      }
+      return {
+        type: Number(cell)
+      }
     })
+    result.width = result.width || cells.length
+    result.board = result.board.concat(cells)
+    return result
+  }, {
+    width: 0,
+    board: [],
+    portals: {}
+  })
 
   class Board {
-    constructor (boardString, $container) {
-      const data = parseBoard(boardString)
+    constructor (boardArray, $container) {
+      const data = parseBoard(boardArray)
       const board = data.board
       const width = data.width
       const portals = data.portals
@@ -57,10 +57,22 @@ define(require => {
           return portals[portalId][portalIndex]
         }
       }
+      const portalColors = Object.keys(portals).reduce((acc, portalId, index) => {
+        acc[portalId] = colors.pop()
+        return acc
+      }, {})
       this.cellWidth = (100 / width) + '%'
       this.cellHeight = (100 / (board.length / width)) + '%'
       this.cells = board.map((cell, index) => {
-        const $el = $('<div class="cell" style="width:' + this.cellWidth + ';height:' + this.cellHeight + ';"/>')
+        const $el = $('<div class="cell"/>')
+        const style = {
+          width: this.cellWidth,
+          height: this.cellHeight
+        }
+        if (cell.portalId) {
+          style.backgroundColor = portalColors[cell.portalId]
+        }
+        $el.css(style)
         $container.append($el)
         const portalTo = getPortalTo(cell.portalId, index)
         return {
