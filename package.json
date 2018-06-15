@@ -1,12 +1,12 @@
 {
-  "name": "seed",
+  "name": "jsplayground",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Javascript game inspred by Apple's Swift Playground app",
   "main": "app.js",
   "scripts": {
     "start": "php -S localhost:3300"
   },
-  "author": "",
+  "author": "Ganesh Rao",
   "license": "ISC",
   "dependencies": {
     "ace-builds": "^1.3.3",
