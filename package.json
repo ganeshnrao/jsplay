@@ -1,18 +1,22 @@
 {
-  "name": "jsplayground",
+  "name": "jsplay",
   "version": "1.0.0",
   "description": "A Javascript game inspred by Apple's Swift Playground app",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "php -S localhost:3300"
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganeshnrao/jsplay.git"
   },
   "author": "Ganesh Rao",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ganeshnrao/jsplay/issues"
+  },
+  "homepage": "https://github.com/ganeshnrao/jsplay#readme",
   "dependencies": {
-    "ace-builds": "^1.3.3",
-    "jquery": "^3.3.1",
-    "lodash": "^4.17.5",
-    "requirejs": "^2.3.5",
-    "requirejs-text": "^2.0.15"
+    "express": "^4.16.3"
   }
 }
